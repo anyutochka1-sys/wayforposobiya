@@ -150,7 +150,7 @@ function addStage(key,current=false){
   node.querySelector('.stage-text').textContent=data.text;
   node.querySelector('.stage-tags').innerHTML=data.tags.map(t=>`<span>${t}</span>`).join('');
   const link=node.querySelector('.stage-link');
-  link.href=data.source;
+  if(link) link.href=data.source;
   if(current){
     const card=node.querySelector('.stage-card');
     card.classList.add('current');
