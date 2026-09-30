@@ -65,6 +65,12 @@ const stages = {
     text:'На этом этапе особенно важны региональные правила: компенсация родительской платы, льготы многодетным, питание и другие меры различаются по субъектам РФ.',
     tags:['детский сад','региональные меры'], source:'https://anyutochka1-sys.github.io/regions/'
   },
+  special: {
+    icon:'!', color:'#b97965', phase:'Проверьте особые обстоятельства',
+    title:'Дополнительные федеральные выплаты могут зависеть не от возраста',
+    text:'Отдельные меры предусмотрены, например, семьям военнослужащих по призыву, при передаче ребёнка на воспитание в семью и в некоторых других жизненных ситуациях. Лесенка показывает основные массовые выплаты, поэтому такие случаи лучше проверять отдельно.',
+    tags:['особые случаи','проверить отдельно'], source:'https://sfr.gov.ru/grazhdanam/semyam_s_detmi/'
+  },
   school: {
     icon:'▱', color:'#6f8797', phase:'Школьный возраст',
     title:'Школьные и региональные меры',
@@ -155,6 +161,7 @@ function buildRoute({pregnant,count,ages}){
     route.splice(insertAt,0,['multi',false]);
   }
   if(under17.length && !route.some(([k])=>k==='unified')) route.push(['unified',false]);
+  if((pregnant || count>0) && !route.some(([k])=>k==='special')) route.push(['special',false]);
   route.push(['finish',false]);
   return route.filter((item,i,arr)=>arr.findIndex(x=>x[0]===item[0])===i);
 }
