@@ -65,6 +65,12 @@ const stages = {
     text:'На этом этапе особенно важны региональные правила: компенсация родительской платы, льготы многодетным, питание и другие меры различаются по субъектам РФ.',
     tags:['детский сад','региональные меры'], source:'https://anyutochka1-sys.github.io/regions/'
   },
+  familyTax: {
+    icon:'₽', color:'#a66a52', phase:'С 2026 года · ежегодно',
+    title:'Ежегодная семейная выплата работающим родителям',
+    text:'Если в семье двое и более детей, проверьте право на ежегодную семейную выплату. Это отдельная федеральная мера, действующая с 2026 года; право зависит от условий закона и доходов семьи.',
+    tags:['2+ детей','работающие родители','с 2026 года'], source:'https://sfr.gov.ru/order/families/'
+  },
   special: {
     icon:'!', color:'#b97965', phase:'Проверьте особые обстоятельства',
     title:'Дополнительные федеральные выплаты могут зависеть не от возраста',
@@ -156,8 +162,12 @@ function buildRoute({pregnant,count,ages}){
     else if(youngest < 17){ route.push(['school',true],['unified',false]); }
     else { route.push(['finish',true]); }
   }
-  if(futureChildren>=3){
+  if(futureChildren>=2){
     const insertAt = Math.min(route.length, pregnant ? 4 : 1);
+    route.splice(insertAt,0,['familyTax',false]);
+  }
+  if(futureChildren>=3){
+    const insertAt = Math.min(route.length, pregnant ? 5 : 2);
     route.splice(insertAt,0,['multi',false]);
   }
   if(under17.length && !route.some(([k])=>k==='unified')) route.push(['unified',false]);
