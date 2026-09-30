@@ -162,16 +162,8 @@ function buildRoute({pregnant,count,ages}){
     else if(youngest < 17){ route.push(['school',true],['unified',false]); }
     else { route.push(['finish',true]); }
   }
-  if(futureChildren>=2){
-    const insertAt = Math.min(route.length, pregnant ? 4 : 1);
-    route.splice(insertAt,0,['familyTax',false]);
-  }
-  if(futureChildren>=3){
-    const insertAt = Math.min(route.length, pregnant ? 5 : 2);
-    route.splice(insertAt,0,['multi',false]);
-  }
-  if(under17.length && !route.some(([k])=>k==='unified')) route.push(['unified',false]);
-  if((pregnant || count>0) && !route.some(([k])=>k==='special')) route.push(['special',false]);
+  // Дополнительные меры для 2+ и 3+ детей не вставляем в основную лесенку:
+  // путь должен оставаться простым и возрастным.
   route.push(['finish',false]);
   return route.filter((item,i,arr)=>arr.findIndex(x=>x[0]===item[0])===i);
 }
@@ -190,10 +182,10 @@ form.addEventListener('submit',e=>{
 
   const totalAfterBirth=count+(pregnant?1:0);
   if(pregnant){
-    resultIntro.textContent=`Начинаем с беременности. После рождения в семье будет ${totalAfterBirth} ${childWord(totalAfterBirth)}. Ниже — последовательность мер, которые стоит проверять по мере движения по возрасту.`;
+    resultIntro.textContent=`Ваш путь начинается с беременности. Ниже — основные этапы, по которым удобно проверять поддержку семьи.`;
   } else if(count){
     const y=ages.length?Math.min(...ages):0;
-    resultIntro.textContent=`Маршрут начинается с текущего возраста младшего ребёнка. В семье ${count} ${childWord(count)}; отдельные меры могут зависеть и от возраста старших детей.`;
+    resultIntro.textContent=`Начинаем с текущего этапа младшего ребёнка и идём дальше по возрасту.`;
   } else {
     resultIntro.textContent='Сейчас детей нет и беременность не отмечена. Когда этап изменится, вернитесь и перестройте маршрут.';
   }
