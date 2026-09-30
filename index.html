@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f1e8">
+  <meta name="description" content="Путь по пособиям — бесплатный навигатор выплат и мер поддержки для семей с детьми.">
+  <title>Путь по пособиям · Анна про пособия</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-script">Анна</span>
+      <span class="brand-sub">ПРО ПОСОБИЯ</span>
+    </div>
+    <div class="verified">Актуально на 2026 год</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Бесплатный навигатор</p>
+        <h1>Путь по пособиям</h1>
+        <p class="lead">Укажите, где вы сейчас: беременность или возраст детей. Я покажу, какие федеральные выплаты и меры стоит проверить сейчас и что будет дальше.</p>
+        <div class="hero-note">Это не решение о назначении выплаты. Итоговое право проверяет СФР, работодатель или региональный орган.</div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 260 220" role="img">
+          <path d="M40 190h46v-34h44v-34h44V88h44V54" fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="39" cy="190" r="16"/>
+          <circle cx="218" cy="54" r="16"/>
+          <path d="M55 38c22-18 46-11 55 11 8-22 34-29 55-11 27 24-9 60-55 91C64 98 28 62 55 38Z" fill="none" stroke="currentColor" stroke-width="7"/>
+        </svg>
+      </div>
+    </section>
+
+    <section class="builder" id="builder">
+      <div class="section-heading">
+        <span>1</span>
+        <div>
+          <p class="eyebrow">Расскажите о семье</p>
+          <h2>С чего начинается ваш маршрут?</h2>
+        </div>
+      </div>
+
+      <form id="familyForm" novalidate>
+        <fieldset>
+          <legend>Вы сейчас беременны?</legend>
+          <div class="choice-grid">
+            <label class="choice-card">
+              <input type="radio" name="pregnant" value="yes">
+              <span class="choice-icon" aria-hidden="true">◒</span>
+              <strong>Да</strong>
+              <small>Добавим этап беременности в начало</small>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="pregnant" value="no" checked>
+              <span class="choice-icon" aria-hidden="true">○</span>
+              <strong>Нет</strong>
+              <small>Начнём с возраста детей</small>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-row">
+          <label>
+            <span>Сколько детей уже родилось?</span>
+            <select id="childrenCount">
+              <option value="0">Пока нет</option>
+              <option value="1">1 ребёнок</option>
+              <option value="2">2 ребёнка</option>
+              <option value="3">3 ребёнка</option>
+              <option value="4">4 ребёнка</option>
+              <option value="5">5 и более</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="childrenAges" class="children-ages" aria-live="polite"></div>
+
+        <button type="submit" class="primary-btn">Построить мою лесенку</button>
+      </form>
+    </section>
+
+    <section id="result" class="result hidden" aria-live="polite">
+      <div class="section-heading">
+        <span>2</span>
+        <div>
+          <p class="eyebrow">Ваш маршрут</p>
+          <h2>Что проверить сейчас и дальше</h2>
+        </div>
+      </div>
+      <p id="resultIntro" class="result-intro"></p>
+      <div id="timeline" class="timeline"></div>
+
+      <div class="next-actions">
+        <article class="action-card regional-card">
+          <div class="action-icon" aria-hidden="true">⌖</div>
+          <div>
+            <p class="eyebrow">Ещё могут быть выплаты</p>
+            <h3>Проверьте региональные меры</h3>
+            <p>Размеры и условия зависят от региона, количества и возраста детей. На отдельном бесплатном сайте собраны региональные меры, которые стоит проверить.</p>
+            <a class="secondary-btn" href="https://anyutochka1-sys.github.io/regions/" target="_blank" rel="noopener">Узнать региональные выплаты бесплатно</a>
+          </div>
+        </article>
+
+        <article class="action-card consult-card" id="consultation">
+          <div class="action-icon" aria-hidden="true">✓</div>
+          <div>
+            <p class="eyebrow">Не хотите разбираться сами?</p>
+            <h3>Разберём всю ситуацию на консультации</h3>
+            <p>Проверим федеральные и региональные выплаты, сроки, документы и ваши индивидуальные условия.</p>
+            <button class="secondary-btn js-consult">Перейти к консультации</button>
+            <small class="link-note">Ссылка на запись будет подключена отдельно.</small>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <div class="section-heading compact">
+        <span>?</span>
+        <div>
+          <p class="eyebrow">Как читать лесенку</p>
+          <h2>Не всё из списка положено автоматически</h2>
+        </div>
+      </div>
+      <div class="explain-grid">
+        <div><b>Сейчас</b><span>то, что стоит проверить по вашему текущему этапу</span></div>
+        <div><b>Дальше</b><span>следующая выплата или возрастной этап</span></div>
+        <div><b>По условиям</b><span>доход, работа, очередность ребёнка и другие критерии могут менять право</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>Анна про пособия</strong> · бесплатный навигатор</p>
+    <p>Данные сверены по официальным материалам СФР. Последняя проверка: 30.09.2026.</p>
+  </footer>
+
+  <template id="stageTemplate">
+    <article class="stage">
+      <div class="stage-rail">
+        <div class="stage-icon"></div>
+        <div class="stage-line"></div>
+      </div>
+      <div class="stage-card">
+        <div class="stage-meta"></div>
+        <h3></h3>
+        <p class="stage-text"></p>
+        <div class="stage-tags"></div>
+        <a class="stage-link" target="_blank" rel="noopener">Официальный источник ↗</a>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
