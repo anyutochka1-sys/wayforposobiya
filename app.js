@@ -190,6 +190,3 @@ function childWord(n){
   return 'детей';
 }
 
-document.querySelectorAll('.js-consult').forEach(btn=>btn.addEventListener('click',()=>{
-  alert('Ссылка на запись на консультацию пока не подключена. Здесь будет прямой переход к Анне.');
-}));
