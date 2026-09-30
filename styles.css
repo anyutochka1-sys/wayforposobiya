@@ -104,3 +104,11 @@ footer p{margin:4px 0}
   .stage-tags{margin-bottom:10px}
   .you-are-here{padding:4px 7px}
 }
+
+.quick-help{margin-top:12px;border-top:1px solid #eadfd2;padding-top:12px}
+.quick-help summary{cursor:pointer;font-weight:800;color:var(--wine);font-size:14px;list-style:none}
+.quick-help summary::-webkit-details-marker{display:none}
+.quick-help summary:after{content:' +';font-weight:900}
+.quick-help[open] summary:after{content:' −'}
+.quick-help ul{margin:12px 0 2px;padding-left:20px;color:#56605c}
+.quick-help li{margin:7px 0;font-size:14px}
