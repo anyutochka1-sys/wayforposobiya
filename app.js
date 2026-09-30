@@ -19,7 +19,7 @@ const sources = {
 const stages = {
   pregnancy: {
     icon:'◒', color:'#bd684f', phase:'Сейчас · беременность',
-    title:'Единое пособие беременной',
+    title:'Беременность',
     text:'Проверьте выплаты, которые доступны во время беременности.',
     tags:['беременность'], source:sources.pregnancy
   },
@@ -31,7 +31,7 @@ const stages = {
   },
   birth: {
     icon:'♡', color:'#d3a64f', phase:'После рождения',
-    title:'Единовременное пособие при рождении ребёнка',
+    title:'Рождение ребёнка',
     text:'После рождения появляются новые выплаты и меры поддержки.',
     tags:['рождение'], source:sources.birth
   },
@@ -43,7 +43,7 @@ const stages = {
   },
   care: {
     icon:'◉', color:'#5f8f8a', phase:'До 1,5 лет',
-    title:'Пособие по уходу за ребёнком до 1,5 лет',
+    title:'Ребёнку до 1,5 лет',
     text:'Проверьте выплаты, которые действуют в первые полтора года жизни ребёнка.',
     tags:['до 1,5 лет'], source:sources.care
   },
@@ -55,13 +55,13 @@ const stages = {
   },
   age15to3: {
     icon:'●', color:'#c98c6f', phase:'1,5–3 года',
-    title:'Проверка выплат после 1,5 лет',
+    title:'Ребёнку от 1,5 до 3 лет',
     text:'После 1,5 лет набор доступных выплат меняется. Проверьте, что остаётся актуальным до трёх лет.',
     tags:['1,5–3 года'], source:sources.matkap
   },
   preschool: {
     icon:'▦', color:'#8d9c72', phase:'Дошкольный возраст',
-    title:'Детский сад и региональная поддержка',
+    title:'Ребёнку от 3 до 7 лет',
     text:'Проверьте меры поддержки для дошкольников и выплаты вашего региона.',
     tags:['3–7 лет','регион'], source:'https://anyutochka1-sys.github.io/regions/'
   },
@@ -79,7 +79,7 @@ const stages = {
   },
   school: {
     icon:'▱', color:'#6f8797', phase:'Школьный возраст',
-    title:'Школьные и региональные меры',
+    title:'Ребёнку от 7 до 17 лет',
     text:'Проверьте меры поддержки для школьников и региональные льготы.',
     tags:['7–17 лет','регион'], source:'https://anyutochka1-sys.github.io/regions/'
   },
@@ -145,27 +145,28 @@ function addStage(key,current=false){
   timeline.appendChild(node);
 }
 function buildRoute({pregnant,count,ages}){
-  const futureChildren = count + (pregnant ? 1 : 0);
-  const under17 = ages.filter(a=>a<17);
   const youngest = ages.length ? Math.min(...ages) : null;
   const route=[];
 
   if(pregnant){
-    route.push(['pregnancy',true],['bir',false],['birth',false],['matkap',false],['care',false],['unified',false],['age15to3',false],['preschool',false],['school',false]);
+    route.push(['pregnancy',true],['birth',false],['care',false],['age15to3',false],['preschool',false],['school',false]);
   } else if(count===0){
     route.push(['finish',true]);
+  } else if(youngest < .5){
+    route.push(['birth',true],['care',false],['age15to3',false],['preschool',false],['school',false]);
+  } else if(youngest < 1.5){
+    route.push(['care',true],['age15to3',false],['preschool',false],['school',false]);
+  } else if(youngest < 3){
+    route.push(['age15to3',true],['preschool',false],['school',false]);
+  } else if(youngest < 7){
+    route.push(['preschool',true],['school',false]);
+  } else if(youngest < 17){
+    route.push(['school',true]);
   } else {
-    if(youngest < .5){ route.push(['birth',true],['matkap',false],['care',false],['unified',false],['age15to3',false],['preschool',false],['school',false]); }
-    else if(youngest < 1.5){ route.push(['care',true],['unified',false],['age15to3',false],['preschool',false],['school',false]); }
-    else if(youngest < 3){ route.push(['age15to3',true],['unified',false],['preschool',false],['school',false]); }
-    else if(youngest < 7){ route.push(['preschool',true],['unified',false],['school',false]); }
-    else if(youngest < 17){ route.push(['school',true],['unified',false]); }
-    else { route.push(['finish',true]); }
+    route.push(['finish',true]);
   }
-  // Дополнительные меры для 2+ и 3+ детей не вставляем в основную лесенку:
-  // путь должен оставаться простым и возрастным.
-  route.push(['finish',false]);
-  return route.filter((item,i,arr)=>arr.findIndex(x=>x[0]===item[0])===i);
+
+  return route;
 }
 
 countSelect.addEventListener('change',renderAgeFields);
