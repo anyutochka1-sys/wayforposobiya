@@ -16,6 +16,16 @@ const sources = {
   matkapAmount: 'https://sfr.gov.ru/grazhdanam/semyam_s_detmi/materinskij_kapital/razmer'
 };
 
+const quickChecks = {
+  pregnancy: ['Единое пособие беременной', 'Пособие по беременности и родам', 'Региональные выплаты беременным'],
+  birth: ['Единовременное пособие при рождении', 'Материнский капитал', 'Единое пособие на ребёнка', 'Региональные выплаты при рождении'],
+  care: ['Пособие по уходу до 1,5 лет', 'Единое пособие', 'Ежемесячная выплата из маткапитала до 3 лет', 'Региональные выплаты'],
+  age15to3: ['Единое пособие', 'Ежемесячная выплата из маткапитала до 3 лет', 'Региональные выплаты и льготы'],
+  preschool: ['Единое пособие', 'Компенсация платы за детский сад', 'Региональные выплаты и льготы'],
+  school: ['Единое пособие до 17 лет', 'Региональные выплаты и льготы', 'Поддержка многодетных семей, если актуально'],
+  finish: ['Проверьте региональные меры и изменения правил']
+};
+
 const stages = {
   pregnancy: {
     icon:'◒', color:'#bd684f', phase:'Сейчас · беременность',
@@ -146,6 +156,13 @@ function addStage(key,current=false){
     card.classList.add('current');
     const meta=node.querySelector('.stage-meta');
     meta.innerHTML='<span class="you-are-here">Вы здесь</span> ' + meta.textContent;
+  }
+  const checks=quickChecks[key];
+  if(checks){
+    const details=document.createElement('details');
+    details.className='quick-help';
+    details.innerHTML='<summary>Что проверить?</summary><ul>'+checks.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+    node.querySelector('.stage-card').appendChild(details);
   }
   timeline.appendChild(node);
 }
