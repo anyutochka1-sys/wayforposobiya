@@ -141,7 +141,12 @@ function addStage(key,current=false){
   node.querySelector('.stage-tags').innerHTML=data.tags.map(t=>`<span>${t}</span>`).join('');
   const link=node.querySelector('.stage-link');
   link.href=data.source;
-  if(current) node.querySelector('.stage-card').classList.add('current');
+  if(current){
+    const card=node.querySelector('.stage-card');
+    card.classList.add('current');
+    const meta=node.querySelector('.stage-meta');
+    meta.innerHTML='<span class="you-are-here">Вы здесь</span> ' + meta.textContent;
+  }
   timeline.appendChild(node);
 }
 function buildRoute({pregnant,count,ages}){
